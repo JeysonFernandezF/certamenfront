@@ -4,24 +4,29 @@ import { useEffect, useRef, useState } from "react";
 import EntradaForm from "../components/EntradaForm";
 import { createEntrada, getEntradas} from "../services/EntradasServices";
 import EntradasTable from "../components/EntradasTable";
-import { tipoPagoList } from "../utils/listForm";
-import {SelectButton} from 'primereact/selectbutton';
+import { peliculasList } from "../utils/listForm";
+import {Dropdown} from 'primereact/dropdown';
 
 const CineAdminContainer = () => {
     const toast = useRef(null);
 
     const [entradas, setEntradas] = useState([])
+    const [entradasOriginales, setEntradasOriginales] = useState([])
     const [filtro, setFiltro] = useState(null);
-
+    
     useEffect(()=> {
-        setEntradas(getEntradas());
+        const datos = getEntradas();
+        setEntradas(datos);
+        setEntradasOriginales(datos);
     },[])
-    useEffect(()=> {
-        if(filtro == null ){ setEntradas(getEntradas())}
-        else{
-            setEntradas(entradas.filter(en => en.pelicula.name = filtro))
-        }
-    },[entradas, filtro])
+
+    useEffect(() => {
+    if (filtro == null) {
+        setEntradas(entradasOriginales);
+    } else {
+        setEntradas(entradasOriginales.filter(en => en.pelicula.name === filtro));
+    }
+    }, [filtro, entradasOriginales]);
 
     const handleComprarEntrada = (rango) => {
         createEntrada(rango);
@@ -29,7 +34,7 @@ const CineAdminContainer = () => {
         toast.current.show({severity: "info", summary: "Entrada registrada", sticky:true})
 
     }
-    
+
     const borrarFiltro = () => {
         setFiltro(null);
         setEntradas(getEntradas());
@@ -45,14 +50,15 @@ const CineAdminContainer = () => {
                         <div className="col col-md-4">
                             <EntradaForm onCreateEntrada={handleComprarEntrada} />
                         </div>
-                        <div className="col col-md-8">
-                            <SelectButton 
-                                id="form-tipo-select" 
-                                options={tipoPagoList} 
-                                value={filtro} 
-                                onChange={e=>setFiltro(e.value)}
-                            />
-                            <p onClick={borrarFiltro}>Limpiar</p>
+                        <div className="col col-md-8  mt-2">
+                            <div className="d-flex flex-column gap-2 mb-2">
+                                <label className="text-start" htmlFor="form-pelicula">Filtro por película</label>
+                                <div className="d-flex gap-2">
+                                    <Dropdown className='w-100' id="form-pelicula" value={filtro} onChange={e=>setFiltro(e.value)} options={peliculasList.map(p => p.name)} optionLabel="dia"
+                                        placeholder="Selecciona una pelicula" checkmark={true} highlightOnSelect={false}/>
+                                    <p onClick={borrarFiltro}>Limpiar</p>
+                                </div>
+                            </div>
                             <EntradasTable entradas={entradas}/>
                         </div>
                     </div>

@@ -9,7 +9,7 @@ import { InputNumber } from 'primereact/inputnumber';
 import { ListBox } from 'primereact/listbox';
 
 import { Messages } from 'primereact/messages';
-import { diasList, peliculas, tipoPagoList } from "../utils/listForm";
+import { diasList, peliculasList, tipoPagoList } from "../utils/listForm";
         
         
 function EntradaForm({onCreateEntrada = () => {}}) {
@@ -95,7 +95,7 @@ function EntradaForm({onCreateEntrada = () => {}}) {
             </div>
             <div className="d-flex flex-column align-items-start mb-3 gap-2">
                 <label htmlFor="nombre-rango-txt">Película</label>
-                <ListBox value={pelicula} onChange={(e) => setPelicula(e.value)} options={peliculas} optionLabel="name" className="w-full md:w-14rem" />     
+                <ListBox value={pelicula} onChange={(e) => setPelicula(e.value)} options={peliculasList} optionLabel="name" className="w-full md:w-14rem" />     
             </div>
             
             <div className="mb-3">
