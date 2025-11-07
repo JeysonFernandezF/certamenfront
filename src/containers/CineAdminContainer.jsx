@@ -15,9 +15,7 @@ const CineAdminContainer = () => {
     const [filtro, setFiltro] = useState(null);
     
     useEffect(()=> {
-        const datos = getEntradas();
-        setEntradas(datos);
-        setEntradasOriginales(datos);
+        reiniciarDatos()
     },[])
 
     useEffect(() => {
@@ -29,16 +27,23 @@ const CineAdminContainer = () => {
     }, [filtro, entradasOriginales]);
 
     const handleComprarEntrada = (rango) => {
+        setFiltro(null);
         createEntrada(rango);
-        setEntradas(getEntradas());
+        reiniciarDatos();
         toast.current.show({severity: "info", summary: "Entrada registrada", sticky:true})
-
     }
 
     const borrarFiltro = () => {
         setFiltro(null);
-        setEntradas(getEntradas());
+        reiniciarDatos()
     }
+
+    const reiniciarDatos = () => {
+        const datos = getEntradas();
+        setEntradasOriginales(datos);
+        setEntradas(datos);
+    }
+
 
     return (
         <>
