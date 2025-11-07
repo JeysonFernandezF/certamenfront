@@ -22,35 +22,44 @@ function EntradaForm({onCreateEntrada = () => {}}) {
     const [ciudad, setCiudad] = useState('');
     const [pelicula, setPelicula] = useState(null);
 
+    const resetForm = () => {
+        setDia('')
+        setTipoDePago(null)
+        setCantidad(1)
+        setCiudad('')
+        setPelicula(null)
+    }
     const handleClick = () => {
         msgs.current.clear();
         const nuevaEntrada = validarFormulario(); 
-
-        console.log(nuevaEntrada)
-
         if(nuevaEntrada) {
             onCreateEntrada(nuevaEntrada);
+            resetForm();
             return; 
         }
-        msgs.current.show({ id: '1', sticky: true, severity: 'error', summary: 'Error', detail: 'El formulario contiene errores.', closable: false });
     }
     
 
     const validarFormulario = () => {
 
         if(dia == '' || dia == null){
+            msgs.current.show({ id: '1', sticky: true, severity: 'error', summary: 'Error', detail: 'Debe seleccionar un día.', closable: false });
             return null;
         }
         if(cantidad <= 0 || cantidad == null){
+            msgs.current.show({ id: '1', sticky: true, severity: 'error', summary: 'Error', detail: 'El campo cantidad debe ser mayor a 0.', closable: false });
             return null;
         }
         if(tipoDePago == '' || tipoDePago == null){
+            msgs.current.show({ id: '1', sticky: true, severity: 'error', summary: 'Error', detail: 'Debe seleccionar un tipo de pago.', closable: false });
             return null;
         }
         if(ciudad == '' || ciudad == null){
+            msgs.current.show({ id: '1', sticky: true, severity: 'error', summary: 'Error', detail: 'Debe ingresar una ciudad.', closable: false });
             return null;
         }
         if(pelicula == '' || pelicula == null){
+            msgs.current.show({ id: '1', sticky: true, severity: 'error', summary: 'Error', detail: 'Debe seleccionar una película.', closable: false });
             return null;
         }
 

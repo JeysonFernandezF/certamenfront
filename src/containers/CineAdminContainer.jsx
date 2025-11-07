@@ -27,7 +27,7 @@ const CineAdminContainer = () => {
     }, [filtro, entradasOriginales]);
 
     const handleComprarEntrada = (rango) => {
-        setFiltro(null);
+        setFiltro(null); //Borro el filtro a proposito
         createEntrada(rango);
         reiniciarDatos();
         toast.current.show({severity: "info", summary: "Entrada registrada", sticky:true})
